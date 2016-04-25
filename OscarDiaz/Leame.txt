@@ -1,4 +1,0 @@
-#Carpeta de Oscar Alejandro Diaz <<oads7>>
-#En esta carpeta se incluyen los aportes al desarrollo del proyecto 
-#Ultimos Cambios:
-	#16/04/2016	Creacion de la carpeta y Leame.txt
