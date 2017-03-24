@@ -1,3 +1,4 @@
-#Author: Nicolás Torres
-#Description: Force Field OLPS in Particles Family Gas Noble (Calculate Geometric)
-#2016 
+----------------------------Descripcion------------------------------
+Este script captura datos, para ser enviados a gnuplot, para luego
+ser graficados por este y ser guardados en un archivo.
+
