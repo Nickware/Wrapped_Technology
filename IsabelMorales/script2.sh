@@ -25,6 +25,7 @@ echo 'set xlabel' $abscisa >> script.gnu
 echo 'set terminal' $tipo >> script.gnu
 echo 'set output' $imagen >> script.gnu
 echo 'replot' >> script.gnu
+convert >>imagen.$tipo .gif
 gnuplot script.gnu
 evince $imagen.$tipo
 
