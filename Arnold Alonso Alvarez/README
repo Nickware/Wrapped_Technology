@@ -1,0 +1,7 @@
+* * * * * * * * * * * * * * * Descripcion * * * * * * * * * * * * * * * * *
+El script numeros.sh que se encuentra en esta carpeta toma los datos
+ingresados por el usuario y con estos realiza dos scripts de GNUplot
+para  realizar  una animación  con extensión  .gif  de las funciones
+trigonometricas.
+
+La imagen example.png en esta misma carpeta muestra como hacerlo.
