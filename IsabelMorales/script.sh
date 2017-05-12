@@ -1,6 +1,6 @@
 #!/bin/bash
 #Author         : Alejanodra Morales
-#Date           : 03/24/2017
+#Date           : 05/12/2017
 #Version        : 0.0.1 
 echo "Limpiando carpeta de archivos"
 rm *.gnu
