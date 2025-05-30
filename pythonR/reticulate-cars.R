@@ -1,4 +1,8 @@
 library(reticulate)
+# Instalar las bibliotecas necesarias de Python
+py_require("pandas")
+py_require("statsmodels")
+py_require("matplotlib")
 
 # importar modulos de python
 pd <- import("pandas")
