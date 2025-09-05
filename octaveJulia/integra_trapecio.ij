@@ -1,0 +1,9 @@
+# 2. Julia envuelve a Octave
+cmd = `octave --quiet --eval "integra_trapecio"`
+#resultado = read(cmd, String)
+#valor = parse(Float64, strip(resultado))
+#println("El resultado devuelto por Octave es: $valor")
+output = read(cmd, String)
+valores = split(output, r"\n")       # divide por salto de línea
+valor = parse(Float64, strip(valores[1]))  # usa sólo el primer valor
+println(valor)
