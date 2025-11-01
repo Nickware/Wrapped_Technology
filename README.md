@@ -62,6 +62,10 @@ ocurren dentro de un mismo runtime; aquí es el centro del problema.
   — Python, pybind11 y NumPy en Mandelbrot e integración numérica.
 - [Manejo masivo de datos](uses_cases/wrapper_applications/manejo_datos/README.md)
   — zero-copy frente a copia en pybind11 y transferencia Python↔R con rpy2.
+- [Simuladores físicos para aprendizaje por refuerzo](uses_cases/wrapper_applications/simuladores_fisicos/README.md)
+  — CartPole en C++/pybind11 con benchmark nativo.
+- [Configuración de CartPole en VS Code](docs/README.md) — entorno Python,
+  compilación, pruebas y uso opcional de un agente de IA.
 
 Las guías de cada proyecto describen sus dependencias y comandos de
 ejecución. En particular, los benchmarks de cálculo numérico y manejo de

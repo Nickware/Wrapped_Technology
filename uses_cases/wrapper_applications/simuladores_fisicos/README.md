@@ -75,6 +75,9 @@ después de terminar un episodio; hay que llamar a `reset`.
 Se requiere un compilador C++ y pybind11 instalado en el mismo Python usado
 para compilar y ejecutar:
 
+Consulta la [guía de configuración en VS Code](../../../docs/README.md) para
+crear un entorno virtual, instalar dependencias, compilar y ejecutar pruebas.
+
 ```bash
 python3 -m pip install pybind11
 sh build.sh
