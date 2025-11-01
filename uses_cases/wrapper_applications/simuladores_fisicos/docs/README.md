@@ -101,13 +101,50 @@ agente.
 ## Agente de IA opcional
 
 El simulador, las pruebas y los benchmarks funcionan sin extensiones de IA. Si
-se desea incorporar un agente para ayudar con pruebas, puede instalar GitHub
-Copilot desde **Extensions** y usar el modo **Agent** de VS Code. El agente
-debe poder trabajar en el repositorio abierto y usar la terminal integrada para
-ejecutar los comandos de compilación y pruebas anteriores.
+se desea incorporar un agente para ayudar con pruebas y análisis, hay dos
+opciones: GitHub Copilot en modo **Agent** o un modelo local servido por
+Ollama desde una extensión de VS Code compatible, como Continue. En ambos
+casos, el cliente debe tener acceso al repositorio abierto. Para ejecutar las
+pruebas desde el agente, habilite el modo de agente y las herramientas de
+terminal en esa extensión; la disponibilidad de herramientas y llamadas a
+funciones depende del cliente y del modelo seleccionado.
 
-Al delegarle trabajo, delimite el cambio a las pruebas salvo que se solicite
-explícitamente modificar la física. Un encargo inicial útil sería:
+### Opción local con Ollama
+
+Instale Ollama siguiendo las instrucciones para Linux de su sitio oficial,
+descargue un modelo que quepa en la memoria disponible y compruebe que responde:
+
+```bash
+ollama pull <modelo>
+ollama run <modelo>
+```
+
+En VS Code, instale una extensión que admita Ollama (por ejemplo, Continue),
+seleccione el proveedor Ollama y el modelo descargado. La dirección local
+habitual de la API es `http://localhost:11434`. Active el modo de agente y las
+herramientas que vaya a permitir. La inferencia se ejecuta localmente; descargar
+el modelo requiere conexión a Internet. No conceda acceso a terminal o archivos
+que no sean necesarios para la tarea.
+
+El modelo no es por sí solo un agente de enfoque lógico: ese enfoque se define
+con instrucciones explícitas en el perfil o reglas del cliente. Puede usar
+instrucciones como estas:
+
+> Trabaja como agente de análisis lógico para el simulador CartPole. Antes de
+> proponer cambios, identifica las invariantes y sigue el flujo
+> `reset`/`step` hasta el núcleo C++. Para cada conclusión, indica la evidencia
+> en el código o una prueba reproducible; separa hechos de hipótesis. Prioriza
+> pruebas deterministas y compara con la referencia de Gymnasium solo bajo las
+> mismas condiciones iniciales y acciones. No cambies ecuaciones, parámetros
+> físicos ni semántica de la API sin autorización. Antes de terminar, ejecuta
+> la compilación y las pruebas pertinentes e informa los resultados.
+
+Con Copilot, esas instrucciones pueden guardarse en
+`.github/copilot-instructions.md` o en un perfil de agente propio. Con Ollama,
+guárdelas en las reglas o configuración del cliente elegido; el formato y la
+ubicación dependen de la extensión.
+
+Un encargo inicial útil sería:
 
 > Añade pruebas reproducibles para la simulación CartPole. Comprueba la API,
 > las transiciones y los límites frente a la referencia documentada de
@@ -115,14 +152,11 @@ explícitamente modificar la física. Un encargo inicial útil sería:
 > compila la extensión y ejecuta `test_cartpole.py`. Resume las pruebas que
 > pasaron y cualquier diferencia respecto de Gymnasium.
 
-Cuando se formalicen instrucciones persistentes para el agente, pueden
-añadirse en `.github/copilot-instructions.md` o en un perfil de agente propio.
-Conviene especificar allí el comando de compilación, el comando de pruebas, la
-semilla reproducible y la regla de no alterar la física sin aprobación. Revise
-los cambios del agente como cualquier otro cambio de código.
+Revise los cambios del agente como cualquier otro cambio de código, en especial
+los resultados de pruebas y cualquier afirmación sobre equivalencia física.
 
 ## Referencias del proyecto
 
-- [Simuladores físicos para aprendizaje por refuerzo](../uses_cases/wrapper_applications/simuladores_fisicos/README.md)
-- [Benchmark Python/pybind11](../uses_cases/wrapper_applications/simuladores_fisicos/benchmark.py)
-- [Pruebas de CartPole](../uses_cases/wrapper_applications/simuladores_fisicos/test_cartpole.py)
+- [Simuladores físicos para aprendizaje por refuerzo](../README.md)
+- [Benchmark Python/pybind11](../benchmark.py)
+- [Pruebas de CartPole](../test_cartpole.py)
