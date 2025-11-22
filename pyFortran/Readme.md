@@ -20,9 +20,9 @@ print("Python time =", end - start, "seconds")
 ```
 
 - Mide el tiempo total que tarda en ejecutar dos bucles anidados.
-- En cada iteración, calcula la raíz cuadrada de la suma de los cuadrados: $$ \sqrt{x^2 + y^2 + z^2} $$.
+- En cada iteración, calcula la raíz cuadrada de la suma de los cuadrados: $ \sqrt{x^2 + y^2 + z^2} $.
 - Usa `time.time()` para medir el tiempo en segundos.
-- Es código puro Python usando la biblioteca estándar `math`.
+- Es código puro en Python, usando la biblioteca estándar `math`.
 
 ***
 
@@ -46,10 +46,10 @@ program test_speed
 end program test_speed
 ```
 
-- Es un programa Fortran que realiza la misma operación matemática dentro de bucles anidados.
-- Usa la función intrínseca `cpu_time` para medir tiempo de CPU de la ejecución.
-- Se compila con un compilador como `gfortran` y se ejecuta en terminal.
-- La operación es idéntica: calcular $$ \sqrt{x^2 + y^2 + z^2} $$ repetidamente.
+- Es un programa en Fortran que realiza la misma operación matemática en bucles anidados.
+- Usa la función intrínseca `cpu_time` para medir el tiempo de CPU de la ejecución.
+- Se compila con un compilador como `gfortran` y se ejecuta en la terminal.
+- La operación es idéntica: calcular repentinamente $\sqrt{x^2 + y^2 + z^2}$.
 - La salida muestra el tiempo transcurrido en segundos.
 
 ***
@@ -57,7 +57,7 @@ end program test_speed
 ## Intención y utilidad
 
 - Ambos scripts miden el rendimiento bruto del cálculo repetitivo de una función matemática sencilla.
-- Permiten comparar **performance** entre un lenguaje interpretado (Python) y un lenguaje compilado de alto rendimiento numérico (Fortran).
+- Permiten comparar el **performance** entre un lenguaje interpretado (Python) y un lenguaje compilado de alto rendimiento numérico (Fortran).
 - Se usan para ilustrar cuánto más rápido es Fortran en código numérico puro, especialmente en bucles muy grandes.
 
 ***
@@ -65,15 +65,15 @@ end program test_speed
 ## Recomendaciones para la comparación
 
 - Ejecutar ambos en la misma máquina bajo condiciones similares.
-- El tiempo en Python puede ser radicalmente mayor que en Fortran (diferenicas de decenas o centenas de veces).
-- Se puede extender la comparación usando optimizadores para Python (NumPy, Cython, Numba).
-- Usar compiladores Fortran optimizados para obtener el mejor rendimiento.
+- El tiempo en Python puede ser radicalmente mayor que en Fortran (por decenas o centenas de veces).
+- Se puede extender la comparación mediante optimizadores para Python (NumPy, Cython, Numba).
+- Usar compiladores de Fortran optimizados para obtener el mejor rendimiento.
 
 ***
 
 ## Conclusión
 
-Estos ejemplos simples evidencian la diferencia considerable de velocidad entre Python y Fortran en tareas numéricas intensivas, destacando la ventaja del código compilado y optimizado de Fortran para cálculo científico puro. Son bases ideales para probar técnicas de tecnología wrapped cuando se busca combinar ambos lenguajes eficientemente.
+Estos ejemplos simples evidencian la diferencia considerable de velocidad entre Python y Fortran en tareas numéricas intensivas, destacando la ventaja del código compilado y optimizado de Fortran para cálculos científicos puros. Son bases ideales para probar técnicas de tecnología wrapped cuando se busca combinar ambos lenguajes de forma eficiente.
 
 [1](https://stackoverflow.com/questions/62883749/speeding-up-nested-loop-comparison)
 [2](https://www.blog.duomly.com/loops-in-python-comparison-and-performance/)
