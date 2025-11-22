@@ -20,7 +20,7 @@ print("Python time =", end - start, "seconds")
 ```
 
 - Mide el tiempo total que tarda en ejecutar dos bucles anidados.
-- En cada iteración, calcula la raíz cuadrada de la suma de los cuadrados: $ \sqrt{x^2 + y^2 + z^2} $.
+- En cada iteración, calcula la raíz cuadrada de la suma de los cuadrados: $\sqrt{x^2 + y^2 + z^2}$.
 - Usa `time.time()` para medir el tiempo en segundos.
 - Es código puro en Python, usando la biblioteca estándar `math`.
 
