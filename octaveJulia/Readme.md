@@ -1,6 +1,6 @@
 # Ejemplo Integración paso a paso entre Julia y Octave
 
-Este ejemplo muestra cómo Julia puede “envolver” código Octave ejecutándolo como un proceso externo, capturando su salida, y procesándola dentro de Julia para aprovechar ambas tecnologías en cálculos científicos.
+Este ejemplo muestra cómo Julia puede “envolver” código Octave ejecutándolo como un proceso externo, capturando su salida y procesándola dentro de Julia para aprovechar ambas tecnologías en cálculos científicos.
 
 ***
 
@@ -57,7 +57,7 @@ Al ejecutar tu código Julia, se lanzará el código Octave, se calculará la in
 
 ## Consejos adicionales
 
-- Asegúrarse que Octave esté instalado y accesible en la variable PATH.
+- Asegurarse de que Octave esté instalado y accesible en la variable PATH.
 - El script Octave debe imprimir solo el valor numérico para fácil parseo.
 - Usa rutas absolutas o administrativo cuidado con directorios temporales para evitar errores de archivo no encontrado.
 
