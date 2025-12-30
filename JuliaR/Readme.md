@@ -1,4 +1,4 @@
-m# Modelo wrapped R desde Julia
+# Modelo wrapped R desde Julia
 
 Descripción paso a paso para crear un modelo wrapped para invocar R desde Julia. Este ejemplo muestra cómo usar Julia para llamar y ejecutar código R, integrando ambos lenguajes en un flujo común de trabajo científico, usando el paquete `RCall.jl`.
 
