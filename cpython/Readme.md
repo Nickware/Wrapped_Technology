@@ -89,7 +89,7 @@ Se debería ver la salida con el resultado del cálculo de Fibonacci para el nú
 ### Notas
 
 - Se puede modificar la función en `example.pyx` para experimentar con otras operaciones matemáticas o algoritmos.
-- Para obtener mayor velocidad, tipear todas las variables internas y usa bucles en Cython.
+- Para obtener mayor velocidad, tipear todas las variables internas y usar bucles en Cython.
 
 
 ### Licencia
