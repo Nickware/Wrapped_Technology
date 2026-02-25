@@ -1,6 +1,6 @@
-# Ejemplo Básico de Integración C++ y Python con pybind11
+# Integración C++ y Python con pybind11
 
-Este ejemplo muestra cómo escribir una función sencilla en C++, compilarla como un módulo para Python usando **pybind11**, y luego usarla directamente desde Python.
+Este ejemplo muestra cómo escribir una función sencilla en C++, compilarla como un módulo para Python usando **pybind11** y luego usarla directamente desde Python.
 
 ## Estructura del ejemplo
 
@@ -11,7 +11,7 @@ Este ejemplo muestra cómo escribir una función sencilla en C++, compilarla com
 
 ## Paso 1: Código C++ (`sum.cpp`)
 
-Este código define una función en C++ que suma dos enteros, y la expone a Python mediante pybind11.
+Este código define una función en C++ que suma dos enteros y la expone a Python mediante pybind11.
 
 ```cpp
 #include <pybind11/pybind11.h>
@@ -36,7 +36,7 @@ Asegúrarse de tener instalado pybind11 en su ambiente Python, ya sea mediante c
 conda install conda-forge::pybind11
 ```
 
-o desde la terminal en bash:
+o desde la terminal en Bash:
 
 ```bash
 sudo apt install -y pybind11-dev
@@ -57,7 +57,7 @@ c++ -O3 -Wall -shared -std=c++11 -fPIC $(python3 -m pybind11 --includes) sum.cpp
 - `sum.cpp`: archivo fuente.
 - `-o sum...`: nombre del módulo generado con el sufijo adecuado para Python (`.so`).
 
-Al finalizar, se tendrá un archivo `.so` para importar en Python (por ejemplo `sum.cpython-39-x86_64-linux-gnu.so`).
+Al finalizar, se tendrá un archivo `.so` para importar en Python (por ejemplo, `sum.cpython-39-x86_64-linux-gnu.so`).
 
 ## Paso 4: Usar el módulo desde Python (`test_sum.py`)
 
@@ -90,9 +90,9 @@ El resultado de la suma es: 12
 ## Resumen
 
 - Se definió una función en C++ para sumar dos números.
-- Se uso **pybind11** para crear un módulo Python que envuelve esa función.
-- Se compilo el módulo con las opciones adecuadas.
-- Se llamó la función directamente desde Python, obteniendo el resultado esperado.
+- Se usó **pybind11** para crear un módulo Python que envuelve esa función.
+- Se compiló el módulo con las opciones adecuadas.
+- Se llamó a la función directamente desde Python, obteniendo el resultado esperado.
 
 Este flujo es muy útil para acelerar partes críticas de código usando C++ y aprovechar la simplicidad y flexibilidad de Python para el resto del desarrollo.
 
