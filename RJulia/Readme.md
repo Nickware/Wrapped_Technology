@@ -1,10 +1,10 @@
-# Modelo wrapper entre R y Julia
+# Integración entre R y Julia
 
 Descripción paso a paso de un ejemplo de tecnología wrapped para integrar R y Julia, usando el paquete **JuliaCall** en R que permite llamar funciones y paquetes de Julia desde R de forma directa y flexible.
 
 ***
 
-# Ejemplo Wrapped: Integración paso a paso entre R y Julia con JuliaCall
+# Integración paso a paso entre R y Julia con JuliaCall
 
 Este ejemplo muestra cómo R puede actuar como envoltorio (wrapper) para ejecutar código Julia, llamar funciones Julia, y usar paquetes Julia dentro de un entorno R, facilitando workflows combinados.
 
@@ -72,7 +72,7 @@ julia_eval("
     model = Flux.Chain(Flux.Dense(10,5,Flux.relu), Flux.Dense(5,2), Flux.softmax)
 ")
 
-# Llamar a funciones del modelo etc.
+# Llamar a funciones del modelo, etc.
 ```
 
 
@@ -97,7 +97,7 @@ result <- julia_call("y")
 ## Ventajas de usar JuliaCall como wrapper
 
 - Seamless: Interfaz muy directa para usar Julia dentro de R sin salir de R.
-- Permite llamar funciones, usar paquetes, y manejar tipos complejos.
+- Permite llamar funciones, usar paquetes y manejar tipos complejos.
 - Proporciona capacidades para ejecutar código Julia en vivo y de forma interactiva.
 - Facilita acelerar código R con rutinas optimizadas de Julia.
 
