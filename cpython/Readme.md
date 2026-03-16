@@ -90,8 +90,3 @@ Se debería ver la salida con el resultado del cálculo de Fibonacci para el nú
 
 - Se puede modificar la función en `example.pyx` para experimentar con otras operaciones matemáticas o algoritmos.
 - Para obtener mayor velocidad, tipear todas las variables internas y usar bucles en Cython.
-
-
-### Licencia
-
-Este ejemplo es de uso libre para fines educativos y de experimentación.
