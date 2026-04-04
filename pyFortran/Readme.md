@@ -73,7 +73,7 @@ end program test_speed
 
 ## Conclusión
 
-Estos ejemplos simples evidencian la diferencia considerable de velocidad entre Python y Fortran en tareas numéricas intensivas, destacando la ventaja del código compilado y optimizado de Fortran para cálculos científicos puros. Son bases ideales para probar técnicas de tecnología wrapped cuando se busca combinar ambos lenguajes de forma eficiente.
+Estos ejemplos evidencian la diferencia considerable de velocidad entre Python y Fortran en tareas numéricas intensivas, destacando la ventaja del código compilado y optimizado de Fortran para cálculos científicos puros. Son bases ideales para probar técnicas de tecnología wrapped cuando se busca combinar ambos lenguajes de forma eficiente.
 
 [1](https://stackoverflow.com/questions/62883749/speeding-up-nested-loop-comparison)
 [2](https://www.blog.duomly.com/loops-in-python-comparison-and-performance/)
