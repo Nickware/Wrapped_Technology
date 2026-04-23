@@ -13,7 +13,7 @@ python -c "import julia; julia.install()"
 
 Este último comando instalar el soporte necesario y compila la librería de enlace.
 
-## Paso 2: Crear función en Julia (opcional)
+## Paso 2: Crear función en Julia
 
 Puede definir funciones Julia directamente desde Python usando `Main.eval` o tener un archivo Julia externo que importarás.
 
@@ -38,7 +38,7 @@ print("El doble de 10 calculado por Julia es:", resultado)
 # Salida esperada: El doble de 10 calculado por Julia es: 20
 ```
 
-## Paso 4: Usar archivo Julia externo (opcional)
+## Paso 4: Usar archivo Julia externo
 
 Si tiene una función definida en un archivo `funciones.jl`, puede cargarla:
 

@@ -72,7 +72,7 @@ ggplot(mtcars, aes(x=wt, y=mpg)) +
 ## Ventajas de este enfoque wrapped
 
 - **Máxima interoperabilidad:** Puedes mezclar análisis y visualizaciones de R y Python en el mismo flujo de trabajo.
-- **Acceso poderoso a bibliotecas R:** Usas modelos, gráficos y técnicas que están muy optimizadas en R sin salir de Python.
+- **Acceso poderoso a bibliotecas de R:** Usas modelos, gráficos y técnicas que están muy optimizados en R sin salir de Python.
 - **Facilidad para transferir datos y resultados:** La interoperabilidad entre pandas y R data.frames es automática gracias a rpy2.
 
 ***
@@ -82,10 +82,6 @@ ggplot(mtcars, aes(x=wt, y=mpg)) +
 - [Documentación oficial de rpy2](https://rpy2.readthedocs.io) — Ejemplos, referencia y detalles de conversión de datos.[5]
 - [Tutorial de R/Python con rpy2 en Kaggle](https://www.kaggle.com/code/alexandrelemercier/r-python-complete-tutorial-showcase-with-rpy2).[1]
 - [Ejemplo de integración y visualización con R desde Python](https://rviews.rstudio.com/2022/05/25/calling-r-from-python-with-rpy2/).[2]
-
-***
-
-Este script es un modelo robusto y profesional para la tecnología “wrapped” entre Python y R, utilizando rpy2, muy usado en ciencia de datos y análisis avanzado.
 
 [1](https://www.kaggle.com/code/alexandrelemercier/r-python-complete-tutorial-showcase-with-rpy2)
 [2](https://rviews.rstudio.com/2022/05/25/calling-r-from-python-with-rpy2/)

@@ -39,8 +39,6 @@ Contenido completo del repositorio:
 
 **Wrapped_Technology** es un ejemplo de cómo aplicar el patrón wrapper para “envolver” componentes y crear nuevas interfaces o funcionalidades sobre ellos, potenciando la flexibilidad, combinabilidad y mantenibilidad del software. Este enfoque está presente en muchas tecnologías modernas y es fundamental en sistemas que integran distintos lenguajes, librerías o paradigmas de programación.
 
-<div style="text-align: center">⁂</div>
-
 [^1]: https://github.com/Nickware/Wrapped_Technology
 
 
