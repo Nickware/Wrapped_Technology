@@ -1,4 +1,13 @@
 % Desde Octave
+% Este código ejecuta un script de Julia llamado integra_trapecio.ij, que se espera que contenga la implementación del método del trapecio para calcular la integral de la función dada. El resultado se guarda en un archivo de texto llamado resultado_julia.txt, que luego se lee y se muestra en la consola de Octave.
+% Asegúrate de que el script de Julia esté correctamente implementado y que el comando julia esté disponible en tu sistema para ejecutar este código sin problemas.
+% El resultado de la integral calculada por el script de Julia se mostrará en la consola de Octave con el formato "Resultado de Julia: [valor]", donde [valor] es el resultado numérico obtenido de la integral.
+% Para ejecutar este código, simplemente cópialo y pégalo en la consola de Octave, asegurándote de que el archivo integra_trapecio.ij esté en el mismo directorio o en un directorio accesible para el comando julia.
+% Nota: Asegúrate de tener tanto Octave como Julia instalados y configurados correctamente en tu sistema para ejecutar este código sin problemas. El script de Julia debe estar implementado para calcular la integral utilizando el método del trapecio y debe imprimir el resultado en la consola, que luego se redirige a un archivo de texto para su lectura en Octave.
+% El código utiliza la función system para ejecutar el comando de Julia, redirigiendo la salida a un archivo de texto. Luego, dlmread se utiliza para leer el resultado numérico del archivo, y disp se utiliza para mostrar el resultado en la consola de Octave con el formato requerido.
+% Asegúrate de que el script de Julia esté correctamente implementado para calcular la integral utilizando el método del trapecio y que imprima el resultado en la consola, ya que este resultado se redirige a un archivo de texto para su posterior lectura en Octave.
+% El código asume que el script de Julia se llama integra_trapecio.ij y que el resultado de la integral se imprime en la consola de Julia, lo que permite redirigirlo a un archivo de texto para su lectura en Octave. Asegúrate de que el script de Julia esté implementado correctamente para obtener el resultado esperado.
+% El código es una forma de integrar la funcionalidad de Julia dentro de un entorno de Octave, permitiendo ejecutar código de Julia desde Octave y obtener los resultados de manera eficiente. Asegúrate de que ambos entornos estén configurados correctamente para evitar problemas al ejecutar este código.
 system('julia integra_trapecio.ij > resultado_julia.txt');
 resultado = dlmread('resultado_julia.txt');
 disp(["Resultado de Julia: ", num2str(resultado)]);
