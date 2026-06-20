@@ -187,7 +187,7 @@ int main() {
 En Ubuntu/Debian, compila así:
 
 ```
-bashg++ -O2 -o mc_currency mc_currency.cpp -lgsl -lgslcblas -lm
+g++ -O2 -o mc_currency mc_currency.cpp -lgsl -lgslcblas -lm
 ./mc_currency
 ```
 
@@ -234,3 +234,85 @@ disp(['95% = ', num2str(p95)]);
 - Probabilidad de depreciación fuerte.
 - Rango de fluctuación (percentiles).
 - Valor en riesgo (VaR) para la moneda.
+
+# Instalación de GSL en Debian y distribuciones derivadas
+
+En las distribuciones derivadas de Debian la instalación de GSL es sencilla usando el gestor de paquetes. Aquí se tiene los pasos exactos:
+
+## 1. Instalación rápida con `apt` (recomendado)
+
+Abrir la terminal y ejecutar:
+
+```bash
+sudo apt update
+sudo apt install libgsl-dev gsl-bin
+```
+
+Esto instalará:
+- **libgsl-dev**: paquete de desarrollo (headers y librerías para compilar).
+- **gsl-bin**: binarios y herramientas útiles de GSL.
+- También se Instala automáticamente `libgsl2` o `libgsl23` (dependiendo de su versión de Ubuntu).
+
+Documentación adicional:
+
+```bash
+sudo apt install gsl-doc-info gsl-doc-pdf gsl-ref-html gsl-ref-psdoc
+```
+
+***
+
+## 2. Verificar que GSL está instalado
+
+Comprobar la versión de GSL:
+
+```bash
+gsl-config --version
+```
+
+Debería ver algo como:
+
+```
+2.4
+```
+
+(o una versión más reciente, según tu Ubuntu).
+
+***
+
+## 3. Compilar tu programa C++ con GSL
+
+Para compilar el código que se mostró antes:
+
+```bash
+g++ -O2 -o mc_currency mc_currency.cpp -lgsl -lgslcblas -lm
+```
+
+Si `gsl-config` está disponible, puedes usar:
+
+```bash
+g++ -O2 -o mc_currency mc_currency.cpp $(gsl-config --cflags --libs)
+```
+
+***
+
+## 4. Instalación manual (opcional, solo si necesita una versión específica)
+
+Si necesita una versión más reciente que la que trae Debia, puede instalar GSL manualmente:
+
+```bash
+wget ftp://ftp.gnu.org/gnu/gsl/gsl-2.8.tar.gz
+tar -zxvf gsl-2.8.tar.gz
+cd gsl-2.8
+./configure --prefix=/usr/local
+make
+sudo make check
+sudo make install
+```
+
+Luego, verificar:
+
+```bash
+gsl-config --version
+```
+
+Pero para el modelo Monte Carlo que se mostró, **la versión del paquete `apt` es suficiente**.
