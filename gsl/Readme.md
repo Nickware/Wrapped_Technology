@@ -315,4 +315,4 @@ Luego, verificar:
 gsl-config --version
 ```
 
-Pero para el modelo Monte Carlo que se mostró, **la versión del paquete `apt` es suficiente**.
+Pero para el modelo Monte Carlo que se mostró, **la versión del paquete `apt` es suficiente**. Se puede emplear usando el mismo esquema de Monte Carlo con cadenas de Markov, donde el fenómeno sea conceptualmente similar a la depreciación/apreciación de una moneda frente al dólar en otros casos. Para ello puede remitirse a [Tres casos análogos usando el esquema de Monte Carlo con cadenas de Markov](case.md)
