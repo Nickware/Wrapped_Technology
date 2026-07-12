@@ -3,7 +3,7 @@
 Propuesta que busca implementar un **modelo de Monte Carlo sencillo con cadenas de Markov** para simular la **depreciación/apreciación de una moneda local frente al dólar**, usando:
 
 - **C++** como lenguaje principal.
-- **GSL** para:
+- **[GLS](gsl.md)** para:
   - Generación de números aleatorios con distribuciones.
   - Simulación de trayectorias.
 - **Octave** (opcional después) para:
@@ -315,4 +315,4 @@ Luego, verificar:
 gsl-config --version
 ```
 
-Pero para el modelo Monte Carlo que se mostró, **la versión del paquete `apt` es suficiente**. Se puede emplear usando el mismo esquema de Monte Carlo con cadenas de Markov, donde el fenómeno sea conceptualmente similar a la depreciación/apreciación de una moneda frente al dólar en otros casos. Para ello puede remitirse a [Tres casos análogos usando el esquema de Monte Carlo con cadenas de Markov](case.md)
+Pero para el modelo de Monte Carlo que se mostró, **la versión del paquete `apt` es suficiente**. Se puede emplear usando el mismo esquema de Monte Carlo con cadenas de Markov, donde el fenómeno sea conceptualmente similar a la depreciación/apreciación de una moneda frente al dólar en otros casos. Para ello puede remitirse a [Tres casos análogos usando el esquema de Monte Carlo con cadenas de Markov](case.md)
