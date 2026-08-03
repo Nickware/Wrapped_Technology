@@ -51,7 +51,7 @@ Con Monte Carlo:
 - `sigma`: volatilidad anual (ej. 0.2 = 20%).
 - `T`: horizonte en años (ej. 1 año).
 - `n_steps`: número de pasos (ej. 252 = días laborables).
-- `n_paths`: número de trayectorias Monte Carlo (ej. 10000).
+- `n_paths`: número de trayectorias de Monte Carlo (ej. 10000).
 
 ## 2. Algoritmo
 
@@ -72,7 +72,7 @@ Al final:
 
 ## Código C++ con GSL (esqueleto completo)
 
-Aquí tienes un código **sencillo, limpio y comentado**, listo para compilar con GSL:
+Aquí se tiene un código **sencillo, limpio y comentado**, listo para compilar con GSL:
 
 ```
 cpp// mc_currency.cpp
@@ -251,7 +251,7 @@ sudo apt install libgsl-dev gsl-bin
 Esto instalará:
 - **libgsl-dev**: paquete de desarrollo (headers y librerías para compilar).
 - **gsl-bin**: binarios y herramientas útiles de GSL.
-- También se Instala automáticamente `libgsl2` o `libgsl23` (dependiendo de su versión de Ubuntu).
+- También se instala automáticamente `libgsl2` o `libgsl23` (dependiendo de su versión de Ubuntu).
 
 Documentación adicional:
 
@@ -297,7 +297,7 @@ g++ -O2 -o mc_currency mc_currency.cpp $(gsl-config --cflags --libs)
 
 ## 4. Instalación manual (opcional, solo si necesita una versión específica)
 
-Si necesita una versión más reciente que la que trae Debia, puede instalar GSL manualmente:
+Si necesita una versión más reciente que la que trae Debian, puede instalar GSL manualmente:
 
 ```bash
 wget ftp://ftp.gnu.org/gnu/gsl/gsl-2.8.tar.gz
