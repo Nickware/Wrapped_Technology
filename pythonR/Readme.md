@@ -71,9 +71,9 @@ ggplot(mtcars, aes(x=wt, y=mpg)) +
 
 ## Ventajas de este enfoque wrapped
 
-- **Máxima interoperabilidad:** Puedes mezclar análisis y visualizaciones de R y Python en el mismo flujo de trabajo.
-- **Acceso poderoso a bibliotecas de R:** Usas modelos, gráficos y técnicas que están muy optimizados en R sin salir de Python.
-- **Facilidad para transferir datos y resultados:** La interoperabilidad entre pandas y R data.frames es automática gracias a rpy2.
+- Máxima interoperabilidad: Puedes mezclar análisis y visualizaciones de R y Python en el mismo flujo de trabajo.
+- Acceso potente a bibliotecas de R: Usas modelos, gráficos y técnicas altamente optimizados en R sin salir de Python.
+- Facilidad para transferir datos y resultados: La interoperabilidad entre pandas y R data.frames es automática gracias a rpy2.
 
 ***
 
