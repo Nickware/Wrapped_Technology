@@ -1,0 +1,23 @@
+#!/bin/bash
+#Richard de la rosa
+#07/04/2017
+echo "programa grafica funciones matematicas"
+echo "-----warning----"
+echo "este programa utiliza sintaxis genuplod:"
+rm *.gnu
+read -p"ingrese la primera funcion:" funcion01
+read -p"ingrese la segunda funcion:" funcion02
+read -p"nombre de la grafica:" titulo
+read -p "titulo de la ordenada:" ordenada 
+read -p "titulo de la adcisa:" adcisa
+read -p "nombre de la imagen: " imagen
+read -p "tipo de imagen:" tipo
+for ((i=1; i<100;i++)); do echo -e  "set xrange [1:100] ;plot $funcion01*i "w l," $funcion02*i "w p"" >> script.gnu
+echo  'set title' $titulo >> script.gnu
+echo  'set ylabel' $ordenada >>script.gnu
+echo  'set xlabel' $abcisa >>script.gnu
+echo  'set terminal' $imagen >>script.gnu
+echo  'set output' $tipo >>script.gnu
+echo  'replot' >>script.gnu 
+gnuplot script.gnu
+
