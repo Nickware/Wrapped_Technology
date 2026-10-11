@@ -17,10 +17,9 @@ pesadas ni confundir el costo del wrapper con gráficos o una política de
 aprendizaje compleja. El agente de prueba es una política determinista simple,
 no un algoritmo de entrenamiento.
 
-El wrapper puede implementarse con pybind11, tecnología que ya aparece en
+El wrapper está implementado con pybind11, tecnología que ya aparece en
 [el ejemplo C++/Python de este repositorio](../../../c++python/Readme.md).
-Una capa Python puede adaptar la API nativa a la interfaz que espera el
-entrenador, por ejemplo Gymnasium, sin trasladar a Python el cálculo de la
+Expone desde Python la API del entorno sin trasladar a Python el cálculo de la
 física.
 
 ## Flujo de una interacción
@@ -95,7 +94,7 @@ semillas y parámetros. Ambos escriben CSV con columnas compatibles; los
 campos de payload y `echo` quedan vacíos para el baseline, porque no cruza la
 frontera Python/C++.
 
-El módulo C++ debe exponer una clase (por defecto, `CartPole`) con esta API:
+El módulo `cartpole` expone la clase `CartPole` con esta API:
 
 - `reset(seed=...)` devuelve `(observation, info)`.
 - `step(action)` devuelve `(observation, reward, terminated, truncated, info)`.
@@ -130,10 +129,11 @@ conversión o creación de objetos; no mide una copia de memoria aislada.
 ## Diseño de la comparación
 
 Usar la misma escena, parámetros físicos, paso de tiempo, secuencia de
-acciones, precisión numérica y semillas en cada variante. Los dos recolectores
-usan la misma política determinista y el mismo núcleo físico, por lo que las
-acciones se generan de forma idéntica. La comparación actual mide un entorno
-por llamada:
+acciones, precisión numérica y semillas en cada variante. En la implementación
+actual, las dos rutas comparten el núcleo físico y la política determinista,
+por lo que las mismas semillas generan la misma trayectoria. La comparación
+mide un entorno por llamada; no usa todavía una traza de acciones independiente
+del simulador:
 
 1. **Ejecución nativa:** avanzar el simulador desde C++ con la secuencia de
    acciones fijada.
@@ -154,27 +154,34 @@ llamada por entorno frente a una llamada por lote (`step_batch`). El lote puede
 reducir cruces de frontera, pero solo es una comparación válida si conserva la
 misma semántica y trabajo físico.
 
-## Perspectivas de la propuesta
+## Perspectivas y siguientes etapas
 
-1. **Aislar el costo de la frontera.** Implementar el mismo CartPole en C++ y
-  ofrecer `reset`/`step` a Python con pybind11. Comparar el avance nativo y el
-  envuelto usando la misma secuencia de acciones. Mantener la inferencia de la
-  política fuera de la medición por paso.
-2. **Entender qué se transfiere.** Empezar con la observación pequeña de
-  CartPole y luego variar su tamaño y formato. Registrar conversiones y
-  asignaciones; evaluar buffers reutilizables solo si son seguros.
-3. **Estudiar granularidad.** Añadir `step_batch` para comparar una llamada
-  por entorno con una llamada por lote. Reportar por separado latencia por
-  entorno y throughput agregado.
-4. **Aumentar realismo.** Tras validar el protocolo controlado, aplicar la
-  misma interfaz a un simulador con física más compleja, como MuJoCo. En esa
-  etapa habrá que registrar solver, escena, frecuencia de renderizado,
-  concurrencia y hardware.
+1. **Aislar el costo de la frontera — base implementada.** El núcleo CartPole,
+   la clase pybind11, el baseline nativo, los recolectores y las pruebas de la
+   API ya están disponibles. El siguiente paso es contrastar trayectorias
+   paso a paso con Gymnasium desde un estado inicial común y ejecutar
+   benchmarks completos con varias repeticiones. La semilla de este proyecto
+   es reproducible, pero no genera la misma muestra inicial que NumPy; por eso
+   la comparación de dinámica debe fijar explícitamente el estado inicial o
+   una traza de acciones.
+2. **Entender qué se transfiere — cobertura inicial.** La observación actual
+   contiene cuatro `double`; `echo_observation` y las estimaciones de payload
+   permiten medir esa ruta pequeña. Falta variar tamaño y formato, y registrar
+   conversiones, asignaciones y copias reales antes de evaluar buffers
+   reutilizables.
+3. **Estudiar granularidad — pendiente.** Añadir `step_batch` para comparar
+   una llamada por entorno con una por lote. Reportar por separado latencia
+   por entorno y throughput agregado, conservando el mismo trabajo físico.
+4. **Aumentar realismo — etapa futura.** Tras validar el protocolo controlado,
+   aplicar la interfaz a un simulador más complejo, como MuJoCo. Registrar
+   solver, escena, frecuencia de renderizado, concurrencia y hardware.
 
-Estas etapas permiten distinguir tres preguntas: cuánto cuesta llamar al
-simulador desde Python, cuánto cuestan los datos que cruzan la frontera y cómo
-se comporta la integración en un flujo de RL más realista. No se anticipan
-speedups: cada etapa requiere mediciones reproducibles.
+El orden recomendado es validar primero la equivalencia física y publicar un
+baseline reproducible de CartPole; después ampliar el payload, probar batching
+y finalmente pasar a un simulador realista. Cada etapa responde una pregunta
+distinta sobre el costo de la frontera, los datos transferidos y la integración
+en un flujo de RL. No se anticipan speedups: deben medirse bajo condiciones
+comparables.
 
 ## Consideraciones de implementación
 
