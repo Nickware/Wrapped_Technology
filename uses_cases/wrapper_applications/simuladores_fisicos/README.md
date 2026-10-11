@@ -1,9 +1,8 @@
 # Simuladores físicos para aprendizaje por refuerzo
 
-**Estado: propuesta en desarrollo.** Este caso estudia cómo exponer a Python
-un simulador físico implementado en C++ y cómo medir el costo de esa frontera.
-El recolector está implementado; todavía falta el simulador C++ y su baseline
-nativo, por lo que aún no hay resultados de un simulador real.
+**Estado: primera implementación disponible.** Incluye un CartPole 2D en C++,
+un módulo pybind11 y un benchmark nativo para comparar la misma dinámica. Aún
+no hay resultados publicados ni una comparación automatizada de CSV.
 
 ## Objetivo
 
@@ -12,11 +11,11 @@ observación, el entorno avanza y devuelve la siguiente observación, una
 recompensa y señales que indican si el episodio terminó. La física puede
 permanecer en C++; Python coordina el agente y el ciclo de entrenamiento.
 
-La primera etapa propuesta es un CartPole 2D sin renderizado. Es un entorno
-pequeño y determinista que permite estudiar llamadas frecuentes sin añadir
-dependencias pesadas ni confundir el costo del wrapper con gráficos o una
-política de aprendizaje compleja. El agente de prueba del recolector es una
-política determinista simple, no un algoritmo de entrenamiento.
+La primera etapa es un CartPole 2D sin renderizado. Es un entorno pequeño y
+determinista que permite estudiar llamadas frecuentes sin añadir dependencias
+pesadas ni confundir el costo del wrapper con gráficos o una política de
+aprendizaje compleja. El agente de prueba es una política determinista simple,
+no un algoritmo de entrenamiento.
 
 El wrapper puede implementarse con pybind11, tecnología que ya aparece en
 [el ejemplo C++/Python de este repositorio](../../../c++python/Readme.md).
@@ -60,11 +59,41 @@ en el costo medido.
   conversiones, asignaciones y copias. Comparar datos pequeños y grandes, y
   documentar si se reutilizan buffers o hay zero-copy.
 
+## Implementación y compilación
+
+`cartpole_core.cpp` implementa las ecuaciones clásicas de CartPole de
+Gymnasium: masas 1.0/0.1 kg, semilongitud del péndulo 0.5 m, gravedad 9.8
+m/s², fuerza 10 N, paso de 0.02 s, integración Euler y límites de posición y
+ángulo de CartPole-v1. La recompensa es 1 por paso y el episodio se trunca a
+los 500 pasos. El estado y la observación tienen el orden
+`[x, x_dot, theta, theta_dot]`.
+
+`reset(seed)` genera los cuatro componentes dentro de `[-0.05, 0.05]`. La
+semilla es reproducible en este simulador, pero utiliza SplitMix64 y por ello
+no reproduce la secuencia aleatoria de NumPy/Gymnasium. La API no acepta pasos
+después de terminar un episodio; hay que llamar a `reset`.
+
+Se requiere un compilador C++ y pybind11 instalado en el mismo Python usado
+para compilar y ejecutar:
+
+```bash
+python3 -m pip install pybind11
+sh build.sh
+PYTHONPATH=build python3 -m unittest test_cartpole.py
+```
+
+El script crea `build/cartpole<extension-suffix>` y
+`build/native_benchmark`. El núcleo físico es compartido por el módulo y el
+ejecutable nativo.
+
 ## Script recolector
 
 [`benchmark.py`](benchmark.py) recoge latencia por paso, throughput, tiempo de
-reinicio y estimaciones del payload lógico. Mide la ruta Python→pybind11; no
-calcula todavía un baseline nativo ni mide `step_batch`.
+reinicio y estimaciones del payload lógico en la ruta Python→pybind11. El
+ejecutable `native_benchmark` mide el baseline C++ con la misma política,
+semillas y parámetros. Ambos escriben CSV con columnas compatibles; los
+campos de payload y `echo` quedan vacíos para el baseline, porque no cruza la
+frontera Python/C++.
 
 El módulo C++ debe exponer una clase (por defecto, `CartPole`) con esta API:
 
@@ -73,22 +102,23 @@ El módulo C++ debe exponer una clase (por defecto, `CartPole`) con esta API:
 - Opcionalmente, `echo_observation(observation)` permite medir una llamada de
   ida y vuelta de los datos sin avanzar la simulación.
 
-Cuando exista ese módulo, se podrá ejecutar desde esta carpeta:
+Desde esta carpeta, ejecutar ambas variantes con los mismos argumentos:
 
 ```bash
-cd uses_cases/wrapper_applications/simuladores_fisicos
-python3 benchmark.py --module cartpole --class-name CartPole \
-  --episodes 100 --max-steps 500 --warmup-episodes 5 --repeats 5 \
-  --output results/cartpole_benchmark.csv
+PYTHONPATH=build python3 benchmark.py --module cartpole --class-name CartPole \\
+  --episodes 100 --max-steps 500 --warmup-episodes 5 --repeats 5 --seed 1234 \\
+  --output build/wrapped_benchmark.csv
+build/native_benchmark --episodes 100 --max-steps 500 \\
+  --warmup-episodes 5 --repeats 5 --seed 1234 \\
+  --output build/native_benchmark.csv
 ```
 
-El módulo compilado debe estar en `PYTHONPATH`. El recolector acepta
-`--help` sin ese módulo, pero necesita la extensión para ejecutar el
-benchmark. Cada fila del CSV corresponde a una repetición e incluye latencia
-p50/p95 por paso, latencia p50 de `reset`, pasos y episodios por segundo y
-estimaciones del payload. La política determinista queda fuera del cronómetro
-individual de `step`; el throughput se mide en una pasada aparte e incluye la
-política y los reinicios.
+Cada fila del CSV corresponde a una repetición e incluye latencia p50/p95 por
+paso, latencia p50 de `reset`, pasos y episodios por segundo. La política
+determinista queda fuera del cronómetro individual de `step`; el throughput se
+mide en una pasada aparte e incluye la política y los reinicios. `--max-steps`
+limita el bucle del benchmark; el entorno también aplica el límite de 500
+pasos de CartPole-v1.
 
 `action_payload_bytes_per_step_estimate` y
 `result_payload_bytes_per_step_estimate` cuentan el tamaño lógico de la acción
@@ -100,9 +130,10 @@ conversión o creación de objetos; no mide una copia de memoria aislada.
 ## Diseño de la comparación
 
 Usar la misma escena, parámetros físicos, paso de tiempo, secuencia de
-acciones, precisión numérica y semillas en cada variante. Las comparaciones
-siguientes son objetivos para ampliar el benchmark; el script actual solo mide
-la ruta envuelta de un entorno:
+acciones, precisión numérica y semillas en cada variante. Los dos recolectores
+usan la misma política determinista y el mismo núcleo físico, por lo que las
+acciones se generan de forma idéntica. La comparación actual mide un entorno
+por llamada:
 
 1. **Ejecución nativa:** avanzar el simulador desde C++ con la secuencia de
    acciones fijada.
