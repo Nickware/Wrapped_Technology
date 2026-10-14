@@ -4,8 +4,8 @@ Este ejemplo muestra cómo escribir una función sencilla en C++, compilarla com
 
 ## Estructura del ejemplo
 
-- Archivo C++: `example.cpp`
-- Script Python para probar: `test_example.py`
+- Archivo C++: `sum.cpp`
+- Script Python para probar: `test_sum.py`
 - Comando para compilar el módulo
 
 
@@ -21,30 +21,31 @@ int suma(int a, int b) {
     return a + b;
 }
 
-// Definición del módulo pybind11 con nombre "example"
+// Definición del módulo pybind11 con nombre "sum"
 PYBIND11_MODULE(sum, m) {
     m.def("suma", &suma, "Suma dos números enteros");
 }
 ```
 
 
-## Paso 2: Instalar pybind11
+## Paso 2: Instalar los requisitos
 
-Asegúrarse de tener instalado pybind11 en su ambiente Python, ya sea mediante conda:
-
-```bash
-conda install conda-forge::pybind11
-```
-
-o desde la terminal en Bash:
+Se necesita Python 3, un compilador de C++ y pybind11 instalado en el mismo
+entorno de Python que se usará para ejecutar el ejemplo. En Debian/Ubuntu,
+instale también los headers de desarrollo de Python:
 
 ```bash
-sudo apt install -y pybind11-dev
+sudo apt install build-essential python3-dev
+python3 -m pip install pybind11
 ```
+
+Si usa Conda, puede instalar pybind11 en el entorno activo con
+`conda install -c conda-forge pybind11`.
 
 ## Paso 3: Compilar el módulo C++
 
-Usar la siguiente instrucción en la terminal para compilar el código:
+Desde esta carpeta, compile el código. `python3-config` y `python3` deben
+pertenecer al mismo entorno:
 
 ```bash
 c++ -O3 -Wall -shared -std=c++11 -fPIC $(python3 -m pybind11 --includes) sum.cpp -o sum$(python3-config --extension-suffix)
@@ -57,11 +58,12 @@ c++ -O3 -Wall -shared -std=c++11 -fPIC $(python3 -m pybind11 --includes) sum.cpp
 - `sum.cpp`: archivo fuente.
 - `-o sum...`: nombre del módulo generado con el sufijo adecuado para Python (`.so`).
 
-Al finalizar, se tendrá un archivo `.so` para importar en Python (por ejemplo, `sum.cpython-39-x86_64-linux-gnu.so`).
+Al finalizar, se tendrá un archivo `.so` para importar en Python. El sufijo
+codifica la versión y plataforma; recompílalo si cambias de versión de Python.
 
 ## Paso 4: Usar el módulo desde Python (`test_sum.py`)
 
-Crear un archivo Python con el siguiente contenido para usar la función `suma` que se definió en C++:
+El archivo `test_sum.py` ya contiene la prueba para usar la función `suma`.
 
 ```python
 import sum

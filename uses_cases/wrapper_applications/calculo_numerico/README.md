@@ -7,14 +7,20 @@ modalidades) y **NumPy vectorizado**.
 ## Estructura
 
 ```
-wrapper_bench/
-├── cpp/
-│   ├── wrapper_bench.cpp   # módulo pybind11: mandelbrot_pixel, mandelbrot_region, integrate_trapz_native
-│   └── build.sh            # compila la extensión
-├── python/
-│   ├── pure_python.py      # equivalentes en Python puro, mismo algoritmo
-│   └── benchmark.py        # orquestador: corre todo, imprime tabla, guarda CSV
-└── results/                # generado al correr benchmark.py
+calculo_numerico/
+├── wrapper_bench.cpp       # módulo pybind11
+├── build.sh                # compila la extensión en build/
+├── pure_python.py          # equivalentes en Python puro
+├── benchmark.py            # ejecuta las comparaciones
+└── *.csv                   # resultados incluidos en el repositorio
+```
+
+Requisitos: Python 3, un compilador de C++, pybind11 y NumPy. En Debian/Ubuntu
+se pueden instalar los requisitos del sistema y los paquetes Python así:
+
+```bash
+sudo apt install build-essential python3-dev
+python3 -m pip install pybind11 numpy
 ```
 
 ## Qué mide cada bloque
@@ -72,9 +78,14 @@ vs baja frecuencia" del README original.
 ## Cómo correrlo
 
 ```bash
-cd cpp && ./build.sh
-cd ../python && python3 benchmark.py
+cd uses_cases/wrapper_applications/calculo_numerico
+bash build.sh
+python3 benchmark.py
 ```
+
+La extensión compilada queda en `build/`; el script la encuentra desde su
+propia ubicación. Los CSV generados se guardan en
+`uses_cases/wrapper_applications/results/`.
 
 ## Extensiones naturales
 

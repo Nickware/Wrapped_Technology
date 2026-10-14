@@ -5,16 +5,16 @@ Este repositorio contiene un ejemplo sencillo de cómo utilizar **Cython** para 
 ### Estructura del proyecto
 
 ```
-cython_fibonacci/
-├── example.pyx
+cpython/
+├── fibonacci.pyx
 ├── setup.py
-└── test_fibonacci.py
+└── script_fibonacci.py
 ```
 
 
 ### Archivo
 
-### `example.pyx`
+### `fibonacci.pyx`
 
 ```cython
 def fibonacci(int n):
@@ -31,18 +31,20 @@ from setuptools import setup
 from Cython.Build import cythonize
 
 setup(
-    ext_modules = cythonize("example.pyx")
+    ext_modules = cythonize("fibonacci.pyx")
 )
 ```
 
 
-#### `test_fibonacci.py`
+#### `script_fibonacci.py`
 
 ```python
-import example
+import fibonacci
 
-result = example.fibonacci(35)
-print('Resultado:', result)
+result = fibonacci.fibonacci(10)
+print(f"The 10th Fibonacci number is: {result}")
+result = fibonacci.fibonacci(20)
+print(f"The 20th Fibonacci number is: {result}")
 ```
 
 
@@ -51,27 +53,28 @@ print('Resultado:', result)
 #### 1. Instalar Cython y setuptools
 
 ```bash
-pip install cython setuptools
+python3 -m pip install cython setuptools
 ```
 
 
 #### 2. Compilar el módulo Cython
 
-Ejecutar en la terminal desde la carpeta del proyecto:
+Ejecutar desde la carpeta `cpython` del repositorio:
 
 ```bash
 python setup.py build_ext --inplace
 ```
 
-Esto generará un archivo compartido (`example.cpython-XYm.so` o similar).
+Esto generará la extensión `fibonacci` con un sufijo correspondiente a tu
+versión de Python.
 
 #### 3. Ejecutar el ejemplo
 
 ```bash
-python test_fibonacci.py
+python3 script_fibonacci.py
 ```
 
-Se debería ver la salida con el resultado del cálculo de Fibonacci para el número 35.
+El script imprime los resultados para `n=10` y `n=20`.
 
 ### ¿Qué hace este ejemplo?
 
@@ -88,5 +91,5 @@ Se debería ver la salida con el resultado del cálculo de Fibonacci para el nú
 
 ### Notas
 
-- Se puede modificar la función en `example.pyx` para experimentar con otras operaciones matemáticas o algoritmos.
+- Se puede modificar la función en `fibonacci.pyx` para experimentar con otras operaciones matemáticas o algoritmos.
 - Para obtener mayor velocidad, tipear todas las variables internas y usar bucles en Cython.

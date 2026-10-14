@@ -11,15 +11,12 @@ su propio par de tecnologías:
 ## Estructura
 
 ```
-data_bench/
-├── cpp/
-│   ├── data_transfer.cpp   # sum_view/scale_view (zero-copy) vs sum_copy/scale_copy
-│   └── build.sh
-├── r/
-│   └── summarize.R         # función R invocada desde rpy2
-├── python/
-│   └── benchmark_data.py   # orquesta ambos experimentos, imprime tabla, guarda CSV
-└── results/
+manejo_datos/
+├── data_transfer.cpp       # módulo pybind11
+├── build.sh                # compila la extensión en build/
+├── summarize.R             # función R invocada desde rpy2
+├── benchmark_data.py       # ejecuta ambos experimentos
+└── build/                  # extensión compilada (generada al compilar)
 ```
 
 ## Experimento 1 — zero-copy vs copia (C++)
@@ -80,52 +77,42 @@ cómputo en R.
 
 ## Requisitos previos
 
+Se necesita Python 3, R, un compilador de C++, headers de desarrollo de
+Python, NumPy, pandas, pybind11 y rpy2. En Debian/Ubuntu:
+
 ```bash
-sudo apt install r-base-core
-sudo apt install python3-numpy
-sudo apt install python3-pandas
-sudo apt install python3-pybind11
-sudo apt install python3-rpy2
+sudo apt install build-essential python3-dev r-base-core
+python3 -m pip install numpy pandas pybind11 rpy2
 ```
 
-`r-base-core` es imprescindible aunque no aparezca explícito más arriba:
-sin R instalado en el sistema, rpy2 no tiene qué embeber. La versión de R
-del sistema y la de rpy2 tienen que ser compatibles entre sí — ver
-"Posibles fallas" más abajo.
+R debe estar disponible en el sistema para que rpy2 pueda inicializarlo. La
+versión de R y la de rpy2 deben ser compatibles; ver "Posibles fallas" más
+abajo. Si se instala desde Conda o un entorno virtual, use el mismo entorno
+de Python para instalar dependencias, compilar y ejecutar.
 
 ## Cómo correrlo
 
 ```bash
-cd cpp
-./build.sh
-export CPATH=/usr/include/python3.13:$CPATH   # ajustar al minor de tu python3
-cd ../python
+cd uses_cases/wrapper_applications/manejo_datos
+bash build.sh
 python3 benchmark_data.py
 ```
 
-La variable `CPATH` le indica al compilador dónde están los headers de
-Python (`Python.h`) cuando `python3-config` o el paquete de desarrollo no
-los deja en una ruta estándar — sin ella, `build.sh` puede fallar al no
-encontrar `Python.h` durante la compilación. Ajusta `python3.13` a la
-versión que tengas instalada (`python3 --version`).
+La extensión compilada queda en `build/`; el script encuentra esa carpeta y
+`summarize.R` mediante rutas relativas a su propio archivo. Los CSV generados
+se guardan en `uses_cases/wrapper_applications/results/`. `python3-dev` debe
+corresponder a la versión de Python que usa el comando `python3`.
 
 ## Posibles fallas
 
 **`ModuleNotFoundError: No module named 'data_transfer'`**
-El script no encuentra el `.so` compilado. Casi siempre es porque el
-proyecto se movió o reorganizó y las rutas relativas (`Path(__file__).parent...`)
-ya no apuntan a donde quedó `build/`. Confirma con `ls` dónde está el
-`.so` respecto a `benchmark_data.py` y ajusta la ruta en el
-`sys.path.insert(...)` al inicio del script — contando los niveles
-`parent` uno por uno en vez de asumirlos.
+El script no encuentra el `.so` compilado. Ejecuta `bash build.sh` desde esta
+carpeta y confirma que `build/` contiene la extensión compilada para tu
+versión de Python.
 
 **`RRuntimeError: cannot open the connection` / `cannot open file '...summarize.R'`**
-Mismo problema que el anterior pero con `r.source(...)`: la ruta relativa
-a `summarize.R` no coincide con dónde quedó el archivo tras mover o
-reorganizar el proyecto. Si el error persiste tras un primer ajuste,
-revisa la ruta completa que imprime R en el mensaje de error — indica
-exactamente dónde buscó, lo cual delata cuántos niveles `parent` sobran o
-faltan.
+Comprueba que `summarize.R` siga junto a `benchmark_data.py` y ejecuta el
+script con el entorno Python que tiene rpy2 instalado.
 
 **`ImportError: cannot import name 'SexpVectorCCompatibleAbstract'` o
 `undefined symbol` al importar rpy2**
@@ -138,8 +125,9 @@ huérfanos de una instalación anterior — desinstala los tres
 cero en vez de solo hacer `pip install --force-reinstall rpy2`.
 
 **Compilación falla por `Python.h: No such file or directory`**
-Falta `CPATH` apuntando a los headers de desarrollo de Python, o falta el
-paquete `python3-dev`/`python3.X-dev` correspondiente a tu versión.
+Instala los headers de desarrollo de la misma versión de Python que ejecuta
+`python3` (en Debian/Ubuntu, `python3-dev` o `python3.X-dev`) y vuelve a
+compilar.
 
 ## Extensiones naturales
 
