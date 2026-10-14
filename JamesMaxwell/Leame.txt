@@ -1,0 +1,3 @@
+#Author: James Maxwell
+#Description: A dynamical theory of the electromagnetic field.
+#Date: 1865
