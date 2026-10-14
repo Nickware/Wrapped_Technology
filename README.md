@@ -31,6 +31,42 @@ tipos y convenciones de llamada distintos. Esa traducción tiene un costo
 que los patrones clásicos de la GoF no necesitan cuantificar, porque
 ocurren dentro de un mismo runtime; aquí es el centro del problema.
 
+## Índice de proyectos
+
+### Ejemplos de integración
+
+- [C++ con Python mediante pybind11](c++python/Readme.md) — compilar e
+  importar una extensión nativa.
+- [Cython y Fibonacci](cpython/Readme.md) — compilar una función tipada de
+  Cython como módulo de Python.
+- [Python con Julia mediante PyJulia](PyJulia/Readme.md) — invocar Julia
+  desde Python.
+- [Python con R mediante rpy2 y reticulate](pythonR/Readme.md) — ejemplos
+  en ambos sentidos.
+- [Python y Fortran](pyFortran/Readme.md) — comparación de cálculo numérico
+  en ambos lenguajes.
+- [Julia con R mediante RCall.jl](JuliaR/Readme.md) — llamar R desde Julia.
+- [R con Julia mediante JuliaCall](RJulia/Readme.md) — llamar Julia desde R.
+- [Julia con Octave](octaveJulia/Readme.md) — ejecutar Octave como proceso
+  externo y procesar su salida en Julia.
+- [C++ con GSL y Octave](gsl/Readme.md) — simulación Monte Carlo y análisis
+  de trayectorias.
+
+### Casos de uso y benchmarks
+
+- [Catálogo de casos de uso](uses_cases/wrapper_general/Readme.md) —
+  propuestas y métricas para comparar wrappers.
+- [Aplicaciones y benchmarks](uses_cases/wrapper_applications/Readme.md) —
+  índice de escenarios concretos.
+- [Cálculo numérico intensivo](uses_cases/wrapper_applications/calculo_numerico/README.md)
+  — Python, pybind11 y NumPy en Mandelbrot e integración numérica.
+- [Manejo masivo de datos](uses_cases/wrapper_applications/manejo_datos/README.md)
+  — zero-copy frente a copia en pybind11 y transferencia Python↔R con rpy2.
+
+Las guías de cada proyecto describen sus dependencias y comandos de
+ejecución. En particular, los benchmarks de cálculo numérico y manejo de
+datos incluyen pasos de compilación, requisitos externos y rutas de salida.
+
 ## Cuándo conviene usar un wrapper
 
 - Para **adaptar una interfaz** existente a como la necesita el código
@@ -65,8 +101,7 @@ ese costo puede ser insignificante o puede comerse por completo la
 ventaja de usar el componente nativo, dependiendo de cuántas veces se
 cruza esa frontera y cuánto trabajo hay de cada lado.
 
-Los benchmarks del repositorio existen para cuantificar exactamente eso,
-caso de uso por caso de uso:
+Los benchmarks implementados cuantifican ese costo en dos escenarios:
 
 - **Cálculo numérico intensivo** — compara Python puro, pybind11 (grano
   fino vs grano grueso) y NumPy vectorizado en Mandelbrot e integración
@@ -76,10 +111,10 @@ caso de uso por caso de uso:
   mostrando que el costo de mover datos entre runtimes puede superar en
   1-3 órdenes de magnitud al costo del cómputo mismo.
 
-Los ítems restantes del catálogo (pipelines multi-lenguaje,
-interoperabilidad orientada a objetos, llamadas de alta/baja frecuencia,
-integración en producción) siguen la misma lógica: mismo patrón de
-diseño, distinto punto del espacio de costos.
+El catálogo general incluye otros escenarios —pipelines multi-lenguaje,
+interoperabilidad orientada a objetos, llamadas de alta/baja frecuencia e
+integración en producción— como propuestas para extender las mediciones;
+no todos cuentan todavía con un benchmark ejecutable en este repositorio.
 
 ## Beneficios
 
@@ -94,11 +129,10 @@ diseño, distinto punto del espacio de costos.
 
 ### Resumen
 
-**Wrapped_Technology** documenta el patrón wrapper —en su variante más
-exigente, la de bindings entre lenguajes— y lo acompaña con benchmarks
-que miden su costo real en escenarios concretos: cálculo intensivo,
-transferencia de datos, y los demás casos de uso del catálogo. La
+**Wrapped_Technology** reúne guías de integración entre lenguajes y
+benchmarks reproducibles para medir el costo de las llamadas y la
+transferencia de datos. El índice de esta página enlaza cada proyecto; la
 pregunta de fondo no es solo cómo envolver un componente, sino cuánto
-cuesta hacerlo y en qué punto deja de valer la pena.
+cuesta hacerlo y cuándo compensa.
 
 [^1]: https://github.com/Nickware/Wrapped_Technology
